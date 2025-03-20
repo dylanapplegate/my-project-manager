@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:20-alpine
+FROM node:23-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -8,13 +8,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --omit=optional
 
 # Copy the rest of the application code into the container
 COPY . .
 
-# Build the TypeScript code
-RUN npm run build
-
 # Define the command to run your application
-CMD ["node", "dist/cli.js"]
+CMD ["node", "src/cli.ts"]
