@@ -7,6 +7,13 @@
       "problemMatcher": ["$eslint-stylish"],
       "label": "npm: prisma:migrate",
       "detail": "prisma migrate dev"
+    },
+    {
+      "type": "npm",
+      "script": "prisma:studio",
+      "problemMatcher": ["$eslint-stylish"],
+      "label": "npm: prisma:studio",
+      "detail": "prisma studio"
     }
   ]
 }
