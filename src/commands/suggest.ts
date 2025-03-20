@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Command } from 'commander'
-import { getTaskSuggestion } from '../lmstudio/lmstudio'
+import { getTaskSuggestion } from '../lmstudio'
 
 const prisma = new PrismaClient()
 const command = new Command()

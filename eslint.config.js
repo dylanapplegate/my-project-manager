@@ -5,6 +5,7 @@ import tsParser from '@typescript-eslint/parser'
 import prettierPlugin from 'eslint-plugin-prettier'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
 import globals from 'globals'
+import jestPlugin from 'eslint-plugin-jest'
 
 export default [
   js.configs.recommended,
@@ -16,12 +17,15 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.node,
+        jest: 'readonly',
       },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
       prettier: prettierPlugin,
+      jest: jestPlugin,
     },
+    extends: ['plugin:jest/recommended'],
     rules: {
       ...tsPlugin.configs.recommended.rules,
       'prettier/prettier': 'error',
