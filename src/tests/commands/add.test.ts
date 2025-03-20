@@ -36,7 +36,7 @@ describe('add command', () => {
 
   it('should add a task with title only', async () => {
     const title = 'Test Task'
-    await expect(command.parseAsync(['add', title], { from: 'user' })).resolves.not.toThrow()
+    await expect(command.parseAsync(['node', 'cli.js', 'add', title], { from: 'user' })).resolves.not.toThrow()
 
     expect(prisma.task.create).toHaveBeenCalledWith({
       data: { title, dueDate: null },
@@ -46,7 +46,9 @@ describe('add command', () => {
   it('should add a task with title and due date', async () => {
     const title = 'Test Task with Due Date'
     const dueDate = '2024-03-15'
-    await expect(command.parseAsync(['add', title, '-d', dueDate], { from: 'user' })).resolves.not.toThrow()
+    await expect(
+      command.parseAsync(['node', 'cli.js', 'add', title, '-d', dueDate], { from: 'user' }),
+    ).resolves.not.toThrow()
 
     expect(prisma.task.create).toHaveBeenCalledWith({
       data: { title, dueDate: new Date(dueDate) },
@@ -56,7 +58,9 @@ describe('add command', () => {
   it('should handle invalid due date gracefully', async () => {
     const title = 'Test Task with Invalid Due Date'
     const dueDate = 'invalid-date'
-    await expect(command.parseAsync(['add', title, '-d', dueDate], { from: 'user' })).rejects.toThrow()
+    await expect(
+      command.parseAsync(['node', 'cli.js', 'add', title, '-d', dueDate], { from: 'user' }),
+    ).rejects.toThrow()
 
     expect(prisma.task.create).not.toHaveBeenCalled() // Ensure no DB write happened
   })
@@ -64,13 +68,13 @@ describe('add command', () => {
   it('should output a success message', async () => {
     const title = 'Test Task'
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {}) // Suppress console output
-    await command.parseAsync(['add', title], { from: 'user' })
+    await command.parseAsync(['node', 'cli.js', 'add', title], { from: 'user' })
 
     expect(logSpy).toHaveBeenCalledWith(`Task added: ${title}`)
     logSpy.mockRestore()
   })
 
   it('should throw an error if title is missing', async () => {
-    await expect(command.parseAsync(['add'], { from: 'user' })).rejects.toThrow()
+    await expect(command.parseAsync(['node', 'cli.js', 'add'], { from: 'user' })).rejects.toThrow()
   })
 })
