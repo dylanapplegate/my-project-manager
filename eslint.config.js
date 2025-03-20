@@ -4,6 +4,7 @@ import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import prettierPlugin from 'eslint-plugin-prettier'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
+import globals from 'globals'
 
 export default [
   js.configs.recommended,
@@ -13,6 +14,9 @@ export default [
       parser: tsParser,
       ecmaVersion: 'latest',
       sourceType: 'module',
+      globals: {
+        ...globals.node,
+      },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
