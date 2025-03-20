@@ -4,6 +4,7 @@
   "description": "- Docker - Docker Compose",
   "main": "index.js",
   "dependencies": {
+    "@lmstudio/sdk": "^1.0.1",
     "@prisma/client": "^6.5.0",
     "commander": "^13.1.0",
     "esbuild": "^0.25.1",
