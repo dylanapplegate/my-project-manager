@@ -41,3 +41,5 @@ Untitled*.ipynb
 /.ms-playwright
 
 .env
+
+node_modules
