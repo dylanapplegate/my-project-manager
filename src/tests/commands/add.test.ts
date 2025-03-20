@@ -1,7 +1,6 @@
 import { Command } from 'commander'
 import { PrismaClient } from '@prisma/client'
 import addCommand from '../../commands/add'
-import { error } from 'console'
 
 jest.mock('@prisma/client', () => {
   const mockPrisma = {
