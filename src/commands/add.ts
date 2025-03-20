@@ -22,6 +22,7 @@ command
     await prisma.task.create({
       data: { title, dueDate },
     })
+
     console.log(`Task added: ${title}`)
     await prisma.$disconnect()
   })

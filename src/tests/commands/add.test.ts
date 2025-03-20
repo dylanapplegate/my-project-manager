@@ -71,7 +71,7 @@ describe('add command', () => {
 
   it('should output a success message', async () => {
     const title = 'Test Task'
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {}) // Suppress console output
+    const logSpy = jest.spyOn(global.console, 'log')
     command.parse([title], { from: 'user' })
 
     expect(logSpy).toHaveBeenCalledWith(`Task added: ${title}`)
