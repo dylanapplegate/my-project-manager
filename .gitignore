@@ -1,45 +1,30 @@
-*.orig
-*.pyc
-*.swp
-.env
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-/.cargo_home/
-/.idea/
-/.vs/
-/.vscode/
-gclient_config.py_entries
-/target/
-/std/hash/_wasm/target
-/tests/wpt/runner/manifest.json
-/third_party/
-/tests/napi/node_modules
-/tests/napi/build
-/tests/napi/third_party_tests/node_modules
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# MacOS generated files
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
 .DS_Store
-.DS_Store?
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Flamegraphs
-/flamebench*.svg
-/flamegraph*.svg
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# WPT generated cert files
-/tests/wpt/runner/certs/index.txt*
-/tests/wpt/runner/certs/serial*
-
-/ext/websocket/autobahn/reports
-
-# JUnit files produced by deno test --junit
-junit.xml
-
-# Jupyter files
-.ipynb_checkpoints/
-Untitled*.ipynb
-
-# playwright browser binary cache
-/.ms-playwright
 
 .env
-
-node_modules
