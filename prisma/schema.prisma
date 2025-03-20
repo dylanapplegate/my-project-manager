@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  status    String   @default("pending") // Use an enum if desired.
+  createdAt DateTime @default(now())
+  dueDate   DateTime?
+  taskLogs  TaskLog[]
+}
+
+model TaskLog {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  action    String
+  timestamp DateTime @default(now())
+  task      Task     @relation(fields: [taskId], references: [id])
+}
