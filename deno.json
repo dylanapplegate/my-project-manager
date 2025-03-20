@@ -1,6 +1,9 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "dev": "deno run --watch src/cli.ts",
+    "migrate": "npx prisma migrate dev --schema=prisma/schema.prisma",
+    "studio": "npx prisma studio --schema=prisma/schema.prisma",
+    "generate": "npx prisma generate --schema=prisma/schema.prisma"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"

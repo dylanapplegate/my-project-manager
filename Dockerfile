@@ -1,5 +1,5 @@
 # Use the official Deno image from Docker Hub
-FROM denoland/deno:alpine-1.33.3
+FROM denoland/deno:2.2.4
 
 # Set the working directory inside the container
 WORKDIR /app
