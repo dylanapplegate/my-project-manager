@@ -4,6 +4,7 @@
   "description": "- Docker - Docker Compose",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "commander": "^13.1.0",
     "esbuild": "^0.25.1",
     "esbuild-register": "^3.6.0",
@@ -17,10 +18,11 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   },
   "scripts": {
-    "start": "node src/cli.ts",
+    "start": "tsx src/cli.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
