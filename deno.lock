@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "npm:prisma@6.5.0": "6.5.0",
     "npm:prisma@latest": "6.5.0"
   },
   "npm": {
@@ -230,6 +231,12 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1"
-    ]
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:@prisma/client@^6.5.0",
+        "npm:prisma@^6.5.0"
+      ]
+    }
   }
 }
