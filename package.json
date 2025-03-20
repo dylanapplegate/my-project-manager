@@ -4,6 +4,7 @@
   "description": "- Docker - Docker Compose",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "commander": "^13.1.0",
     "esbuild": "^0.25.1",
     "esbuild-register": "^3.6.0",
