@@ -3,7 +3,7 @@
 import { Command } from 'commander'
 import addCommand from './commands/add'
 import completeCommand from './commands/complete'
-import listCommand from './commands/list'
+      import listCommand from './commands/list'
 import suggestCommand from './commands/suggest'
 
 const program = new Command()
