@@ -1,6 +1,5 @@
 import { Command } from 'commander'
 import { PrismaClient } from '@prisma/client'
-import { compileFunction } from 'vm'
 
 jest.mock('@prisma/client', () => {
   const mockPrisma = {
@@ -24,6 +23,7 @@ describe('add command', () => {
     prisma = new PrismaClient()
     command = require('../../commands/add').default
     command.exitOverride()
+
     exitMock = jest.spyOn(process, 'exit').mockImplementation((code?: string | number | null | undefined) => {
       throw new Error(`process.exit called with code: ${code}`)
     }) // Prevent Jest from exiting
@@ -40,7 +40,7 @@ describe('add command', () => {
 
   it('should add a task with title only', async () => {
     const title = 'Test Task'
-    command.parse([title], { from: 'user' })
+    await command.parseAsync([title], { from: 'user' })
 
     expect(prisma.task.create).toHaveBeenCalledWith({
       data: { title, dueDate: null },
@@ -51,33 +51,35 @@ describe('add command', () => {
     const title = 'Test Task with Due Date'
     const dueDate = '2024-03-15'
 
-    command.parse([title, '-d', dueDate], { from: 'user' })
+    command.parseAsync([title, '-d', dueDate], { from: 'user' })
 
     expect(prisma.task.create).toHaveBeenCalledWith({
       data: { title, dueDate: new Date(dueDate) },
     })
   })
 
-  // it('should handle invalid due date gracefully', async () => {
-  //   const title = 'Test Task with Invalid Due Date'
-  //   const dueDate = 'invalid-date'
+  it('should handle invalid due date gracefully', async () => {
+    const title = 'Test Task with Invalid Due Date'
+    const dueDate = 'invalid-date'
 
-  //   await command.parse([title, '-d', dueDate], { from: 'user' })
+    expect(async () => {
+      await command.parseAsync([title, '-d', dueDate], { from: 'user' })
+    }).rejects.toThrow('Invalid date format. Please use YYYY-MM-DD.')
 
-  //   expect(prisma.task.create).not.toHaveBeenCalled() // Ensure no DB write happened
-  // })
+    expect(prisma.task.create).not.toHaveBeenCalled() // Ensure no DB write happened
+  })
 
   it('should output a success message', async () => {
     const title = 'Test Output Message'
 
-    await command.parse([title], { from: 'user' })
+    await command.parseAsync([title], { from: 'user' })
 
     expect(logMock).toHaveBeenCalledWith(`Task added: ${title}`)
   })
 
   it('should throw an error if title is missing', async () => {
     await expect(async () => {
-      await command.parse([], { from: 'user' })
+      await command.parseAsync([], { from: 'user' })
     }).rejects.toThrow("error: missing required argument 'title'")
   })
 })
