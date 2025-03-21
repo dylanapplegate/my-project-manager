@@ -19,8 +19,4 @@ program.addCommand(suggestCommand)
 program.addCommand(reviewCommand)
 program.addCommand(logsCommand)
 
-if (process.argv[1].endsWith('cli.ts')) {
-  program.parse(process.argv)
-}
-
 export { program }

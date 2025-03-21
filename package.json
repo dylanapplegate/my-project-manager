@@ -29,7 +29,7 @@
     "typescript": "^5.8.2"
   },
   "scripts": {
-    "start": "tsx src/cli.ts",
+    "start": "tsx src/start.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -56,7 +56,7 @@
   },
   "homepage": "https://github.com/dylanapplegate/my-project-manager#readme",
   "bin": {
-    "my-task-manager": "./src/cli.ts"
+    "my-task-manager": "./src/start.ts"
   },
   "lint-staged": {
     "*.ts": [
