@@ -94,14 +94,30 @@ describe('getTaskSuggestion', () => {
     expect(result).toBe('Error fetching AI suggestion.')
   })
 
-  // it('should handle no pending tasks gracefully', async () => {
-  //   const taskHistory = 'Task 1 completed\nTask 2 completed'
-  //   const pendingTasks = ''
+  it('should handle no pending tasks gracefully', async () => {
+    const taskHistory = 'Task 1 completed\nTask 2 completed'
+    const pendingTasks = ''
+    const aiSuggestion = 'Next Task: None\nReasoning: No pending tasks.'
 
-  //   mockRespond.mockResolvedValueOnce({ content: 'Next Task: None\nReasoning: No pending tasks.' })
+    const chatMock = jest.mocked(Chat)
+    chatMock.from.mockReturnValue({
+      appendText: jest.fn(),
+    } as unknown as Chat)
 
-  //   const result = await getTaskSuggestion(taskHistory, pendingTasks)
+    const LMSStudioClientMock = jest.mocked(LMStudioClient)
+    LMSStudioClientMock.mockImplementation(
+      () =>
+        ({
+          llm: {
+            model: jest.fn().mockResolvedValue({
+              respond: jest.fn().mockResolvedValue({ content: aiSuggestion }),
+            }),
+          },
+        }) as any,
+    )
 
-  //   expect(result).toBe('Next Task: None\nReasoning: No pending tasks.')
-  // })
+    const result = await getTaskSuggestion(taskHistory, pendingTasks)
+
+    expect(result).toBe('Next Task: None\nReasoning: No pending tasks.')
+  })
 })
