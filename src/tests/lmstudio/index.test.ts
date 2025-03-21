@@ -13,10 +13,27 @@ describe('getTaskSuggestion', () => {
     const pendingTasks = 'Task 3 pending\nTask 4 pending'
     const aiSuggestion = 'Next Task: Task 3\nReasoning: Task 3 is the highest priority.'
 
-    const chatMock = Chat as unknown as jest.Mock<typeof Chat>
-    console.log({ chatMock })
+    const chatMock = jest.mocked(Chat)
+    const LMSStudioClientMock = jest.mocked(LMStudioClient)
+    LMSStudioClientMock.mockImplementation(() => {
+      return {
+        clientIdentifier: '',
+        embedding: {},
+        system: {},
+        diagnostics: {},
+        file: {},
+        audio: {},
+        vision: {},
+        llm: {
+          model: jest.fn().mockReturnValue({
+            respond: jest.fn().mockResolvedValue({ content: aiSuggestion }),
+          }),
+        },
+      } as unknown as LMStudioClient
+    })
 
-    // const result = await getTaskSuggestion(taskHistory, pendingTasks)
+    const result = await getTaskSuggestion(taskHistory, pendingTasks)
+    expect(result).toBe(aiSuggestion)
 
     // expect(mockRespond).toHaveBeenCalledWith(
     //   expect.arrayContaining([
