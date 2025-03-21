@@ -1,5 +1,5 @@
 import { LMStudioClient, Chat } from '@lmstudio/sdk'
-import { getTaskSuggestion } from '../../lmstudio'
+import { getTaskSuggestion } from '../../lmstudio/lmstudio'
 
 jest.mock('@lmstudio/sdk')
 
