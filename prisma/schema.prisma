@@ -17,6 +17,7 @@ model Task {
   category  String?
   goal      String?
   project   String?
+  type      String?
   taskLogs  TaskLog[]
 }
 

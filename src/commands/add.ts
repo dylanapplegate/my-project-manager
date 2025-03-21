@@ -12,6 +12,7 @@ command
   .option('--category <category>', 'Task category')
   .option('--goal <goal>', 'Task goal')
   .option('--project <project>', 'Task project')
+  .option('--type <type>', 'Task type') // Added the --type option
   .action(async (title, options) => {
     if (options.due) {
       const dueDate = new Date(options.due)
@@ -25,8 +26,9 @@ command
     const category = options.category ?? null
     const goal = options.goal ?? null
     const project = options.project ?? null
+    const type = options.type ?? null // Added type variable
     await prisma.task.create({
-      data: { title, dueDate, category, goal, project },
+      data: { title, dueDate, category, goal, project, type }, // Included type in the data object
     })
 
     console.log(`Task added: ${title}`)

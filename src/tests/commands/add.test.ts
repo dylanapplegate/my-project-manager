@@ -50,6 +50,7 @@ describe('add command', () => {
         category: null,
         goal: null,
         project: null,
+        type: null,
       },
     })
   })
@@ -67,6 +68,7 @@ describe('add command', () => {
         category: null,
         goal: null,
         project: null,
+        type: null,
       },
     })
   })
@@ -86,6 +88,25 @@ describe('add command', () => {
         category,
         goal,
         project,
+        type: null,
+      },
+    })
+  })
+
+  it('should add a task with type', async () => {
+    const title = 'Typed Task'
+    const type = 'leetcode'
+
+    await command.parseAsync([title, '--type', type], { from: 'user' })
+
+    expect(prisma.task.create).toHaveBeenCalledWith({
+      data: {
+        title,
+        dueDate: null,
+        category: null,
+        goal: null,
+        project: null,
+        type,
       },
     })
   })
