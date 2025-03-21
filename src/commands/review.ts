@@ -59,6 +59,20 @@ command
       console.log(`\n${q}\n→ ${answers[i]}`)
     })
 
+    const reflectionText = reflectionQuestions.map((q, i) => `${q}\n→ ${answers[i]}`).join('\n\n')
+
+    const taskId =
+      completedTasks[completedTasks.length - 1]?.id ??
+      (await prisma.task.findFirst({ orderBy: { createdAt: 'desc' } }))?.id
+
+    await prisma.taskLog.create({
+      data: {
+        taskId,
+        action: `reflection:\n${reflectionText}`,
+        timestamp: new Date(),
+      },
+    })
+
     await prisma.$disconnect()
   })
 

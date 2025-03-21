@@ -6,8 +6,12 @@ jest.mock('@prisma/client', () => {
   const mockPrisma = {
     task: {
       findMany: jest.fn(),
+      findFirst: jest.fn(),
     },
     $disconnect: jest.fn(),
+    taskLog: {
+      create: jest.fn(),
+    },
   }
   return { PrismaClient: jest.fn(() => mockPrisma) }
 })
