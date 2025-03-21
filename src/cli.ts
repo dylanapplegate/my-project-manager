@@ -13,7 +13,7 @@ program.addCommand(completeCommand)
 program.addCommand(listCommand)
 program.addCommand(suggestCommand)
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1].endsWith('cli.ts')) {
   program.parse(process.argv)
 }
 
