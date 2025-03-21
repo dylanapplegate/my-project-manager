@@ -19,7 +19,7 @@ services:
   migrate-database:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.migrate
     depends_on:
       postgres:
         condition: service_healthy
