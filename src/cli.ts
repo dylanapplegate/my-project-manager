@@ -14,3 +14,5 @@ program.addCommand(listCommand)
 program.addCommand(suggestCommand)
 
 program.parse(process.argv)
+
+export { program }
