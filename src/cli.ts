@@ -13,7 +13,7 @@ program.addCommand(completeCommand)
 program.addCommand(listCommand)
 program.addCommand(suggestCommand)
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   program.parse(process.argv)
 }
 
