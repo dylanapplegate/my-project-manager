@@ -1,17 +1,14 @@
 # Use the official Node.js image as the base image
-FROM node:23-alpine
+FROM node:23.10.0-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage Docker cache
-COPY package*.json ./
+# Copy the prisma code into the container
+COPY prisma prisma
 
-# Install dependencies
-RUN npm install --omit=optional
+# # Install dependencies
+# RUN npm install --omit=optional
 
-# Copy the rest of the application code into the container
-COPY . .
-
-# Define the command to run your application
-CMD ["node", "src/cli.ts"]
+# Run npx prisma migrate dev as the default command
+CMD ["npx", "prisma", "migrate", "dev"]
