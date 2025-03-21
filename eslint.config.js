@@ -17,7 +17,7 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.node,
-        jest: 'readonly',
+        ...globals.jest,
       },
     },
     plugins: {
@@ -25,9 +25,9 @@ export default [
       prettier: prettierPlugin,
       jest: jestPlugin,
     },
-    extends: ['plugin:jest/recommended'],
     rules: {
       ...tsPlugin.configs.recommended.rules,
+      ...jestPlugin.configs['flat/recommended'].rules,
       'prettier/prettier': 'error',
     },
   },

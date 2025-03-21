@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Command } from 'commander'
 import { PrismaClient } from '@prisma/client'
 
@@ -62,7 +63,7 @@ describe('add command', () => {
     const title = 'Test Task with Invalid Due Date'
     const dueDate = 'invalid-date'
 
-    expect(async () => {
+    await expect(async () => {
       await command.parseAsync([title, '-d', dueDate], { from: 'user' })
     }).rejects.toThrow('Invalid date format. Please use YYYY-MM-DD.')
 

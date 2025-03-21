@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { LMStudioClient, Chat } from '@lmstudio/sdk'
 import { getTaskSuggestion } from '../../lmstudio/lmstudio'
 

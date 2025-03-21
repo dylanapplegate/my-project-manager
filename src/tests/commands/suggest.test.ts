@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Command } from 'commander'
 import { PrismaClient } from '@prisma/client'
 import { getTaskSuggestion } from '../../lmstudio' // Adjust path as needed
