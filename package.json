@@ -21,6 +21,7 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-prettier": "^5.2.3",
     "jest": "^29.7.0",
+    "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "ts-jest": "^29.2.6",
     "tsx": "^4.19.3",
@@ -37,7 +38,8 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "lint-staged": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -53,5 +55,11 @@
   "homepage": "https://github.com/dylanapplegate/my-project-manager#readme",
   "bin": {
     "my-task-manager": "./src/cli.ts"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
