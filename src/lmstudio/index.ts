@@ -42,8 +42,10 @@ ${pendingTasks}
       },
     ])
 
-    const model = await lmStudioClient.llm.model('gemma-3-4b-it') // Updated to a better model
+    const model = await lmStudioClient.llm.model('gemma-3-4b-it')
     const response = await model.respond(chat)
+
+    console.log('LM Studio response:', response)
 
     return response.content || 'No suggestion available.'
   } catch (error) {
