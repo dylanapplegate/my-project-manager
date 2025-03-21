@@ -91,17 +91,7 @@ docker-compose.yaml    # DB and app containers
 
 ## Roadmap
 
-- [x] Core task management via CLI
-- [x] AI suggestions based on context
-- [x] Dockerized PostgreSQL database
-- [x] Full test coverage for CLI commands
-- [ ] Extend AI reasoning using task categories
-- [ ] Add task logging (via `TaskLog` model)
-- [ ] Support local scheduling/reminders
-- [ ] Build web UI to complement CLI
-- [ ] Offline-first sync and mobile client
-
----
+## For more detail on the project roadmap, see [`ROADMAP.md`](./ROADMAP.md).
 
 ## Long-Term Vision
 
@@ -114,6 +104,37 @@ This project will evolve into a goal-aware personal productivity assistant, espe
 - 📊 Weekly progress summaries and reflective journaling prompts
 
 For more detail on the project roadmap, see [`ROADMAP.md`](./ROADMAP.md).
+
+---
+
+## Changelog
+
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [Unreleased]
+
+- Add support for task categories, goals, and projects (in progress)
+
+## [1.0.0] - 2025-03-21
+
+### Added
+
+- Initial CLI with `add`, `list`, `complete`, and `suggest` commands
+- PostgreSQL integration using Prisma ORM
+- Prisma schema with `Task` and `TaskLog` models
+- LM Studio integration for AI-powered task suggestions
+- Docker and Docker Compose setup
+- Full Jest test suite with 98%+ coverage
+- README and ROADMAP files with long-term vision
+- ESLint, Prettier, and TypeScript tooling setup
+
+### Notes
+
+- This release is the foundation for a larger personal productivity system with AI-assisted suggestions and job-search-focused workflows.
 
 ---
 
