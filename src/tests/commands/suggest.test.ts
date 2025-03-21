@@ -51,6 +51,7 @@ describe('suggest command', () => {
         category: 'Work',
         goal: 'Finish project',
         project: 'Project A',
+        type: 'No type',
       },
       {
         id: 2,
@@ -60,6 +61,7 @@ describe('suggest command', () => {
         category: 'Personal',
         goal: 'Read book',
         project: 'Project B',
+        type: 'No type',
       },
     ]
     const pendingTasks = [
@@ -71,6 +73,7 @@ describe('suggest command', () => {
         category: 'Work',
         goal: 'Start project',
         project: 'Project C',
+        type: 'No type',
       },
     ]
     const aiSuggestion = 'Suggested Task'
@@ -92,7 +95,7 @@ describe('suggest command', () => {
       take: 5,
     })
     expect(getTaskSuggestionMock).toHaveBeenCalledWith(
-      expect.stringContaining('Completed Task 1 [Work / Finish project / Project A]'),
+      expect.stringContaining('Completed Task 1 [Work / Finish project / Project A / No type]'),
       expect.stringContaining('Pending Task 1 (Due:'),
     )
     expect(logMock).toHaveBeenCalledWith(`🤖 AI Suggestion: ${aiSuggestion}`)
@@ -150,6 +153,7 @@ describe('suggest command', () => {
         category: 'Work',
         goal: 'Finish project',
         project: 'Project A',
+        type: 'No type',
       },
     ]
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(completedTasks)
@@ -159,7 +163,7 @@ describe('suggest command', () => {
     await command.parseAsync([], { from: 'user' })
 
     expect(getTaskSuggestionMock).toHaveBeenCalledWith(
-      expect.stringContaining('Completed Task [Work / Finish project / Project A]'),
+      expect.stringContaining('Completed Task [Work / Finish project / Project A / No type]'),
       'None',
     )
     expect(logMock).toHaveBeenCalledWith('🤖 AI Suggestion: Suggestion for completed tasks only')
@@ -175,6 +179,7 @@ describe('suggest command', () => {
         category: 'Work',
         goal: 'Start project',
         project: 'Project C',
+        type: 'No type',
       },
     ]
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce([])
@@ -197,6 +202,7 @@ describe('suggest command', () => {
         category: 'Work',
         goal: 'Finish project',
         project: 'Project A',
+        type: 'No type',
       },
     ]
     const pendingTasks = [
@@ -208,6 +214,7 @@ describe('suggest command', () => {
         category: 'Work',
         goal: 'Start project',
         project: 'Project C',
+        type: 'No type',
       },
     ]
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(completedTasks)
@@ -217,7 +224,7 @@ describe('suggest command', () => {
     await command.parseAsync([], { from: 'user' })
 
     expect(getTaskSuggestionMock).toHaveBeenCalledWith(
-      expect.stringContaining('Completed Task [Work / Finish project / Project A]'),
+      expect.stringContaining('Completed Task [Work / Finish project / Project A / No type]'),
       expect.stringContaining('Pending Task (Due:'),
     )
     expect(logMock).toHaveBeenCalledWith('🤖 AI Suggestion: Suggestion for both completed and pending tasks')

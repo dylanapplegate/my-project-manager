@@ -19,7 +19,7 @@ command
       completedTasks
         .map(
           (task) =>
-            `- ${task.title} [${task.category ?? 'No category'} / ${task.goal ?? 'No goal'} / ${task.project ?? 'No project'}]`,
+            `- ${task.title} [${task.category ?? 'No category'} / ${task.goal ?? 'No goal'} / ${task.project ?? 'No project'} / ${task.type ?? 'No type'}]`,
         )
         .join('\n') || 'None'
 
@@ -33,7 +33,7 @@ command
       pendingTasks
         .map(
           (task) =>
-            `- ${task.title} (Due: ${task.dueDate || 'No deadline'}) [${task.category ?? 'No category'} / ${task.goal ?? 'No goal'} / ${task.project ?? 'No project'}]`,
+            `- ${task.title} (Due: ${task.dueDate || 'No deadline'}) [${task.category ?? 'No category'} / ${task.goal ?? 'No goal'} / ${task.project ?? 'No project'} / ${task.type ?? 'No type'}]`,
         )
         .join('\n') || 'None'
 
