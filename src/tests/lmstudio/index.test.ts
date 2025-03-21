@@ -66,16 +66,33 @@ describe('getTaskSuggestion', () => {
     expect(result).toBe('No suggestion available.')
   })
 
-  // it('should handle errors gracefully', async () => {
-  //   const taskHistory = 'Task 1 completed\nTask 2 completed'
-  //   const pendingTasks = 'Task 3 pending\nTask 4 pending'
+  it('should handle errors gracefully', async () => {
+    const taskHistory = 'Task 1 completed\nTask 2 completed'
+    const pendingTasks = 'Task 3 pending\nTask 4 pending'
 
-  //   mockRespond.mockRejectedValueOnce(new Error('API error'))
+    const chatMock = jest.mocked(Chat)
+    chatMock.from.mockReturnValue({
+      appendText: jest.fn(),
+    } as unknown as Chat)
 
-  //   const result = await getTaskSuggestion(taskHistory, pendingTasks)
+    const LMSStudioClientMock = jest.mocked(LMStudioClient)
+    LMSStudioClientMock.mockImplementation(
+      () =>
+        ({
+          llm: {
+            model: jest.fn().mockResolvedValue({
+              respond: jest.fn().mockImplementation(() => {
+                throw new Error('Error fetching AI suggestion.')
+              }),
+            }),
+          },
+        }) as any,
+    )
 
-  //   expect(result).toBe('Error fetching AI suggestion.')
-  // })
+    const result = await getTaskSuggestion(taskHistory, pendingTasks)
+
+    expect(result).toBe('Error fetching AI suggestion.')
+  })
 
   // it('should handle no pending tasks gracefully', async () => {
   //   const taskHistory = 'Task 1 completed\nTask 2 completed'
