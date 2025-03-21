@@ -1,1 +1,1 @@
-npx husky init
+npm test
