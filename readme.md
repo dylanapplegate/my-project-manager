@@ -25,6 +25,10 @@ This is the **first implementation** of a larger vision: a productivity platform
 - Docker Compose
 - Node.js ≥ 18 (for local CLI dev)
 - LM Studio (running locally)
+- If you want to run the CLI directly with `my-task-manager`, install tsx globally:
+  ```bash
+  npm install -g tsx
+  ```
 
 ### Run with Docker
 
@@ -39,7 +43,7 @@ docker-compose up -d
 ## CLI Usage
 
 ```bash
-npm run start
+my-task-manager add "Write blog post" -d 2025-03-22
 ```
 
 Available commands:
@@ -48,6 +52,8 @@ Available commands:
 - `list [--completed]` — List pending (default) or completed tasks
 - `complete <id>` — Mark a task as completed
 - `suggest` — Get an AI-generated suggestion based on task history
+
+> ℹ️ If you see an error like `env: tsx: No such file or directory`, make sure you've installed `tsx` globally with `npm install -g tsx`.
 
 ---
 

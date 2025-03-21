@@ -1,3 +1,5 @@
+#!/usr/bin/env tsx
+
 import { Command } from 'commander'
 import addCommand from './commands/add'
 import completeCommand from './commands/complete'
