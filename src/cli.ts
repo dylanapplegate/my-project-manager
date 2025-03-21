@@ -5,6 +5,7 @@ import addCommand from './commands/add'
 import completeCommand from './commands/complete'
 import listCommand from './commands/list'
 import suggestCommand from './commands/suggest'
+import reviewCommand from './commands/review'
 
 const program = new Command()
 
@@ -14,6 +15,7 @@ program.addCommand(addCommand)
 program.addCommand(completeCommand)
 program.addCommand(listCommand)
 program.addCommand(suggestCommand)
+program.addCommand(reviewCommand)
 
 if (process.argv[1].endsWith('cli.ts')) {
   program.parse(process.argv)
