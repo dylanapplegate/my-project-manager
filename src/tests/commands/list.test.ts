@@ -76,4 +76,21 @@ describe('list command', () => {
       await command.parseAsync([], { from: 'user' })
     }).rejects.toThrow(mockError)
   })
+
+  it('should filter tasks by category, goal, and project', async () => {
+    const mockTasks = [{ id: 4, title: 'Filtered Task', status: 'pending' }]
+    ;(prisma.task.findMany as jest.Mock).mockResolvedValue(mockTasks)
+
+    await command.parseAsync(['--category', 'writing', '--goal', 'portfolio', '--project', 'blog'], { from: 'user' })
+
+    expect(prisma.task.findMany).toHaveBeenCalledWith({
+      where: {
+        status: 'pending',
+        category: 'writing',
+        goal: 'portfolio',
+        project: 'blog',
+      },
+    })
+    expect(logMock).toHaveBeenCalledWith(expect.stringContaining('4: Filtered Task [pending]'))
+  })
 })
