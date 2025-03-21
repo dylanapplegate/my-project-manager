@@ -13,6 +13,10 @@ model Task {
   status    String   @default("pending") // Use an enum if desired.
   createdAt DateTime @default(now())
   dueDate   DateTime?
+    // 🆕 Metadata for smarter suggestions
+  category  String?
+  goal      String?
+  project   String?
   taskLogs  TaskLog[]
 }
 

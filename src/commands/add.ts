@@ -9,6 +9,9 @@ command
   .description('Add a new task')
   .argument('<title>', 'Task title')
   .option('-d, --due <dueDate>', 'Due date (YYYY-MM-DD)')
+  .option('--category <category>', 'Task category')
+  .option('--goal <goal>', 'Task goal')
+  .option('--project <project>', 'Task project')
   .action(async (title, options) => {
     if (options.due) {
       const dueDate = new Date(options.due)
@@ -19,8 +22,11 @@ command
     }
 
     const dueDate = options.due ? new Date(options.due) : null
+    const category = options.category ?? null
+    const goal = options.goal ?? null
+    const project = options.project ?? null
     await prisma.task.create({
-      data: { title, dueDate },
+      data: { title, dueDate, category, goal, project },
     })
 
     console.log(`Task added: ${title}`)
