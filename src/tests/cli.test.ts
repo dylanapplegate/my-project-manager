@@ -32,4 +32,8 @@ describe('cli.ts', () => {
   it('should register the review command', () => {
     expect(program.commands).toEqual(expect.arrayContaining([expect.objectContaining({ _name: 'review' })]))
   })
+
+  it('should register the logs command', () => {
+    expect(program.commands).toEqual(expect.arrayContaining([expect.objectContaining({ _name: 'logs' })]))
+  })
 })
