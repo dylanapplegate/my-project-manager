@@ -43,10 +43,36 @@ describe('suggest command', () => {
 
   it('should fetch completed and pending tasks and call the AI', async () => {
     const completedTasks = [
-      { id: 1, title: 'Completed Task 1', status: 'completed', createdAt: new Date() },
-      { id: 2, title: 'Completed Task 2', status: 'completed', createdAt: new Date() },
+      {
+        id: 1,
+        title: 'Completed Task 1',
+        status: 'completed',
+        createdAt: new Date(),
+        category: 'Work',
+        goal: 'Finish project',
+        project: 'Project A',
+      },
+      {
+        id: 2,
+        title: 'Completed Task 2',
+        status: 'completed',
+        createdAt: new Date(),
+        category: 'Personal',
+        goal: 'Read book',
+        project: 'Project B',
+      },
     ]
-    const pendingTasks = [{ id: 3, title: 'Pending Task 1', status: 'pending', dueDate: new Date() }]
+    const pendingTasks = [
+      {
+        id: 3,
+        title: 'Pending Task 1',
+        status: 'pending',
+        dueDate: new Date(),
+        category: 'Work',
+        goal: 'Start project',
+        project: 'Project C',
+      },
+    ]
     const aiSuggestion = 'Suggested Task'
 
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(completedTasks)
@@ -66,8 +92,8 @@ describe('suggest command', () => {
       take: 5,
     })
     expect(getTaskSuggestionMock).toHaveBeenCalledWith(
-      expect.stringContaining('Completed Task 1'),
-      expect.stringContaining('Pending Task 1'),
+      expect.stringContaining('Completed Task 1 [Work / Finish project / Project A]'),
+      expect.stringContaining('Pending Task 1 (Due:'),
     )
     expect(logMock).toHaveBeenCalledWith(`🤖 AI Suggestion: ${aiSuggestion}`)
   })
@@ -115,32 +141,75 @@ describe('suggest command', () => {
   })
 
   it('should handle only completed tasks', async () => {
-    const completedTasks = [{ id: 1, title: 'Completed Task', status: 'completed', createdAt: new Date() }]
+    const completedTasks = [
+      {
+        id: 1,
+        title: 'Completed Task',
+        status: 'completed',
+        createdAt: new Date(),
+        category: 'Work',
+        goal: 'Finish project',
+        project: 'Project A',
+      },
+    ]
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(completedTasks)
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce([])
     getTaskSuggestionMock.mockResolvedValue('Suggestion for completed tasks only')
 
     await command.parseAsync([], { from: 'user' })
 
-    expect(getTaskSuggestionMock).toHaveBeenCalledWith(expect.stringContaining('Completed Task'), 'None')
+    expect(getTaskSuggestionMock).toHaveBeenCalledWith(
+      expect.stringContaining('Completed Task [Work / Finish project / Project A]'),
+      'None',
+    )
     expect(logMock).toHaveBeenCalledWith('🤖 AI Suggestion: Suggestion for completed tasks only')
   })
 
   it('should handle only pending tasks', async () => {
-    const pendingTasks = [{ id: 1, title: 'Pending Task', status: 'pending', dueDate: new Date() }]
+    const pendingTasks = [
+      {
+        id: 1,
+        title: 'Pending Task',
+        status: 'pending',
+        dueDate: new Date(),
+        category: 'Work',
+        goal: 'Start project',
+        project: 'Project C',
+      },
+    ]
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce([])
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(pendingTasks)
     getTaskSuggestionMock.mockResolvedValue('Suggestion for pending tasks only')
 
     await command.parseAsync([], { from: 'user' })
 
-    expect(getTaskSuggestionMock).toHaveBeenCalledWith('None', expect.stringContaining('Pending Task'))
+    expect(getTaskSuggestionMock).toHaveBeenCalledWith('None', expect.stringContaining('Pending Task (Due:'))
     expect(logMock).toHaveBeenCalledWith('🤖 AI Suggestion: Suggestion for pending tasks only')
   })
 
   it('should handle both completed and pending tasks', async () => {
-    const completedTasks = [{ id: 1, title: 'Completed Task', status: 'completed', createdAt: new Date() }]
-    const pendingTasks = [{ id: 2, title: 'Pending Task', status: 'pending', dueDate: new Date() }]
+    const completedTasks = [
+      {
+        id: 1,
+        title: 'Completed Task',
+        status: 'completed',
+        createdAt: new Date(),
+        category: 'Work',
+        goal: 'Finish project',
+        project: 'Project A',
+      },
+    ]
+    const pendingTasks = [
+      {
+        id: 2,
+        title: 'Pending Task',
+        status: 'pending',
+        dueDate: new Date(),
+        category: 'Work',
+        goal: 'Start project',
+        project: 'Project C',
+      },
+    ]
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(completedTasks)
     ;(prisma.task.findMany as jest.Mock).mockResolvedValueOnce(pendingTasks)
     getTaskSuggestionMock.mockResolvedValue('Suggestion for both completed and pending tasks')
@@ -148,8 +217,8 @@ describe('suggest command', () => {
     await command.parseAsync([], { from: 'user' })
 
     expect(getTaskSuggestionMock).toHaveBeenCalledWith(
-      expect.stringContaining('Completed Task'),
-      expect.stringContaining('Pending Task'),
+      expect.stringContaining('Completed Task [Work / Finish project / Project A]'),
+      expect.stringContaining('Pending Task (Due:'),
     )
     expect(logMock).toHaveBeenCalledWith('🤖 AI Suggestion: Suggestion for both completed and pending tasks')
   })

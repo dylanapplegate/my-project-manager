@@ -15,7 +15,13 @@ command
       orderBy: { createdAt: 'desc' },
       take: 5,
     })
-    const formattedCompleted = completedTasks.map((task) => `- ${task.title}`).join('\n') || 'None'
+    const formattedCompleted =
+      completedTasks
+        .map(
+          (task) =>
+            `- ${task.title} [${task.category ?? 'No category'} / ${task.goal ?? 'No goal'} / ${task.project ?? 'No project'}]`,
+        )
+        .join('\n') || 'None'
 
     // Fetch pending tasks with priorities
     const pendingTasks = await prisma.task.findMany({
@@ -24,7 +30,12 @@ command
       take: 5,
     })
     const formattedPending =
-      pendingTasks.map((task) => `- ${task.title} (Due: ${task.dueDate || 'No deadline'})`).join('\n') || 'None'
+      pendingTasks
+        .map(
+          (task) =>
+            `- ${task.title} (Due: ${task.dueDate || 'No deadline'}) [${task.category ?? 'No category'} / ${task.goal ?? 'No goal'} / ${task.project ?? 'No project'}]`,
+        )
+        .join('\n') || 'None'
 
     // Call AI with better context
     const suggestion = await getTaskSuggestion(formattedCompleted, formattedPending)
