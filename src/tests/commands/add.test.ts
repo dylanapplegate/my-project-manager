@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import { PrismaClient } from '@prisma/client'
-import addCommand from '../../commands/add'
+import { compileFunction } from 'vm'
 
 jest.mock('@prisma/client', () => {
   const mockPrisma = {
@@ -22,7 +22,7 @@ describe('add command', () => {
 
   beforeEach(() => {
     prisma = new PrismaClient()
-    command = addCommand
+    command = require('../../commands/add').default
     command.exitOverride()
     exitMock = jest.spyOn(process, 'exit').mockImplementation((code?: string | number | null | undefined) => {
       throw new Error(`process.exit called with code: ${code}`)
@@ -61,7 +61,8 @@ describe('add command', () => {
   // it('should handle invalid due date gracefully', async () => {
   //   const title = 'Test Task with Invalid Due Date'
   //   const dueDate = 'invalid-date'
-  //   expect(() => command.parse([title, '-d', dueDate], { from: 'user' })).toThrow()
+
+  //   await command.parse([title, '-d', dueDate], { from: 'user' })
 
   //   expect(prisma.task.create).not.toHaveBeenCalled() // Ensure no DB write happened
   // })
