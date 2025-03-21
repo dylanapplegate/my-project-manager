@@ -36,7 +36,8 @@
     "prisma:generate": "prisma generate",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
