@@ -23,12 +23,16 @@ This is the **first implementation** of a larger vision: a productivity platform
 
 - Docker
 - Docker Compose
-- Node.js ≥ 18 (for local CLI dev)
+- Node.js ≥ 23.9.0 (recommended, matches .nvmrc)
 - LM Studio (running locally)
-- If you want to run the CLI directly with `my-task-manager`, install tsx globally:
-  ```bash
-  npm install -g tsx
-  ```
+
+If you're using [nvm](https://github.com/nvm-sh/nvm), you can initialize the correct Node.js version with:
+
+```bash
+nvm use
+```
+
+This will match the `.nvmrc` file, which specifies the recommended version (`v23.9.0`).
 
 ### Run with Docker
 
@@ -38,12 +42,50 @@ cd my-project-manager
 docker-compose up -d
 ```
 
+### Running the CLI
+
+You have two options to run the CLI:
+
+#### Option 1: Global Install
+
+1. Install `tsx` globally:
+
+   ```bash
+   npm install -g tsx
+   ```
+
+2. Link the project:
+
+   ```bash
+   npm link
+   ```
+
+#### Option 2: Use Without Global Install
+
+You can run commands via the start script like this:
+
+```bash
+npm start -- add "Write blog post" -d 2025-03-22
+```
+
+Replace `add` with any supported command (e.g., `list`, `complete`, `suggest`).
+
 ---
 
 ## CLI Usage
 
+You can invoke commands in two ways:
+
+#### Option 1: Global Install
+
 ```bash
 my-task-manager add "Write blog post" -d 2025-03-22
+```
+
+#### Option 2: Use Without Global Install
+
+```bash
+npm start -- add "Write blog post" -d 2025-03-22
 ```
 
 Available commands:
