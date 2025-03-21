@@ -13,6 +13,8 @@ program.addCommand(completeCommand)
 program.addCommand(listCommand)
 program.addCommand(suggestCommand)
 
-program.parse(process.argv)
+if (require.main === module) {
+  program.parse(process.argv)
+}
 
 export { program }
