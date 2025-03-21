@@ -44,7 +44,13 @@ describe('add command', () => {
     await command.parseAsync([title], { from: 'user' })
 
     expect(prisma.task.create).toHaveBeenCalledWith({
-      data: { title, dueDate: null },
+      data: {
+        title,
+        dueDate: null,
+        category: null,
+        goal: null,
+        project: null,
+      },
     })
   })
 
@@ -55,7 +61,32 @@ describe('add command', () => {
     command.parseAsync([title, '-d', dueDate], { from: 'user' })
 
     expect(prisma.task.create).toHaveBeenCalledWith({
-      data: { title, dueDate: new Date(dueDate) },
+      data: {
+        title,
+        dueDate: new Date(dueDate),
+        category: null,
+        goal: null,
+        project: null,
+      },
+    })
+  })
+
+  it('should add a task with category, goal, and project', async () => {
+    const title = 'Metadata Task'
+    const category = 'writing'
+    const goal = 'portfolio'
+    const project = 'blog'
+
+    await command.parseAsync([title, '--category', category, '--goal', goal, '--project', project], { from: 'user' })
+
+    expect(prisma.task.create).toHaveBeenCalledWith({
+      data: {
+        title,
+        dueDate: null,
+        category,
+        goal,
+        project,
+      },
     })
   })
 
