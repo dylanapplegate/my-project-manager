@@ -4,7 +4,7 @@ import { getTaskSuggestion } from '../../lmstudio'
 jest.mock('@lmstudio/sdk')
 
 describe('getTaskSuggestion', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks()
   })
 
@@ -14,53 +14,57 @@ describe('getTaskSuggestion', () => {
     const aiSuggestion = 'Next Task: Task 3\nReasoning: Task 3 is the highest priority.'
 
     const chatMock = jest.mocked(Chat)
+    chatMock.from.mockReturnValue({
+      appendText: jest.fn(),
+    } as unknown as Chat)
+
     const LMSStudioClientMock = jest.mocked(LMStudioClient)
-    LMSStudioClientMock.mockImplementation(() => {
-      return {
-        clientIdentifier: '',
-        embedding: {},
-        system: {},
-        diagnostics: {},
-        file: {},
-        audio: {},
-        vision: {},
-        llm: {
-          model: jest.fn().mockReturnValue({
-            respond: jest.fn().mockResolvedValue({ content: aiSuggestion }),
-          }),
-        },
-      } as unknown as LMStudioClient
-    })
+    LMSStudioClientMock.mockImplementation(
+      () =>
+        ({
+          llm: {
+            model: jest.fn().mockResolvedValue({
+              respond: jest.fn().mockResolvedValue({ content: aiSuggestion }),
+            }),
+          },
+        }) as any,
+    )
+
+    const getTaskSuggestion = require('../../lmstudio').getTaskSuggestion
+
+    // const mockRespond = jest.fn().mockResolvedValue({ content: aiSuggestion })
 
     const result = await getTaskSuggestion(taskHistory, pendingTasks)
     expect(result).toBe(aiSuggestion)
-
-    // expect(mockRespond).toHaveBeenCalledWith(
-    //   expect.arrayContaining([
-    //     expect.objectContaining({
-    //       role: 'system',
-    //       content: expect.stringContaining('You are an intelligent task manager'),
-    //     }),
-    //     expect.objectContaining({
-    //       role: 'user',
-    //       content: expect.stringContaining('### Completed Tasks:'),
-    //     }),
-    //   ]),
-    // )
-
-    // expect(result).toBe(aiSuggestion)
   })
 
-  // it('should return a default message if no suggestion is available', async () => {
-  //   const taskHistory = 'Task 1 completed\nTask 2 completed'
-  //   const pendingTasks = 'Task 3 pending\nTask 4 pending'
+  it('should return a default message if no suggestion is available', async () => {
+    const taskHistory = 'Task 1 completed\nTask 2 completed'
+    const pendingTasks = 'Task 3 pending\nTask 4 pending'
 
-  //   mockRespond.mockResolvedValueOnce({ content: '' })
+    const chatMock = jest.mocked(Chat)
+    chatMock.from.mockReturnValue({
+      appendText: jest.fn(),
+    } as unknown as Chat)
 
-  //   const result = await getTaskSuggestion(taskHistory, pendingTasks)
+    const LMSStudioClientMock = jest.mocked(LMStudioClient)
+    LMSStudioClientMock.mockImplementation(
+      () =>
+        ({
+          llm: {
+            model: jest.fn().mockResolvedValue({
+              respond: jest.fn().mockResolvedValue({}),
+            }),
+          },
+        }) as any,
+    )
 
-  //   expect(result).toBe('No suggestion available.')
-  // })
+    const getTaskSuggestion = require('../../lmstudio').getTaskSuggestion
+
+    const result = await getTaskSuggestion(taskHistory, pendingTasks)
+
+    expect(result).toBe('No suggestion available.')
+  })
 
   // it('should handle errors gracefully', async () => {
   //   const taskHistory = 'Task 1 completed\nTask 2 completed'

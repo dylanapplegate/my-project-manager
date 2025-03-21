@@ -1,8 +1,8 @@
 import { Chat, LMStudioClient } from '@lmstudio/sdk'
 
-const lmStudioClient = new LMStudioClient()
-
 export async function getTaskSuggestion(taskHistory: string, pendingTasks: string) {
+  const lmStudioClient = new LMStudioClient()
+
   try {
     const chat = Chat.from([
       {
@@ -43,13 +43,13 @@ ${pendingTasks}
     ])
 
     const model = await lmStudioClient.llm.model('gemma-3-4b-it')
-    const response = await model.respond(chat)
 
-    console.log('LM Studio response:', response)
+    const response = await model.respond(chat)
 
     return response.content || 'No suggestion available.'
   } catch (error) {
     console.error('Error fetching suggestion from LM Studio:', error)
+
     return 'Error fetching AI suggestion.'
   }
 }
